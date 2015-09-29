@@ -48,10 +48,6 @@ class RbacController extends Controller
 
         //---------- PERMISSIONS ----------//
 
-        // add "usePremiumContent" permission
-        $usePremiumContent = $auth->createPermission('usePremiumContent');
-        $usePremiumContent->description = 'Allows premium+ roles to use premium content';
-        $auth->add($usePremiumContent);
 
         // add "manageUsers" permission
         $manageUsers = $auth->createPermission('manageUsers');
@@ -94,19 +90,13 @@ class RbacController extends Controller
         $member->description = 'Registered users, members of this site';
         $auth->add($member);
 
-        // add "premium" role
-        $premium = $auth->createRole('premium');
-        $premium->description = 'Premium members. They have more permissions than normal members';
-        $auth->add($premium);
-        $auth->addChild($premium, $usePremiumContent);
 
         // add "support" role
         // support can do everything that member and premium can, plus you can add him more powers
         $support = $auth->createRole('support');
         $support->description = 'Support staff';
         $auth->add($support); 
-        $auth->addChild($support, $premium);
-        $auth->addChild($support, $member);    
+        $auth->addChild($support, $member);
 
         // add "editor" role and give this role: 
         // createArticle, updateOwnArticle and adminArticle permissions, plus he can do everything that support role can do.
