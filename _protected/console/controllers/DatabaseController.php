@@ -38,7 +38,7 @@ class DatabaseController extends Controller
      */
     public function actionInit($host,$port,$db,$username,$password)
     {
-        $command="createdb -h $host -p $port -U $username -W $password $db";
+        $command="createdb -h $host -p $port -U $username  $db";
         exec($command);
        // $this->createDatabase($host,$port, $username, $password);
        // $this->createExtensions($host,$port,$db, $username, $password,['postgis','hstore']);
