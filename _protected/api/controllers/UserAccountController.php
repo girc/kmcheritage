@@ -80,7 +80,7 @@ class UserAccountController extends Controller
                 return  Json::encode(['status'=>'error','msg'=>'Sorry! Could not create account']);
             }
         }else{
-            return  Json::encode(['status'=>'error','msg'=>$model->getErrors()]);
+            return  Json::encode(['status'=>'error','msg'=>Yii::$app->request->post()]);
         }
     }
 
