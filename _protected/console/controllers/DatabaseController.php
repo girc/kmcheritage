@@ -1,6 +1,7 @@
 <?php
 namespace console\controllers;
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
 use yii\console\Controller;
 use Yii;
@@ -33,16 +34,34 @@ use Yii;
  */
 class DatabaseController extends Controller
 {
+    public $host;
+    public $port;
+    public $username;
+    public $db;
+
+    public function options($actionID)
+    {
+        // $actionId might be used in subclasses to provide options specific to action id
+        return [
+            'host', 'port', 'username', 'db'
+        ];
+    }
     /**
      * Initializes the Database
      */
-    public function actionInit($host,$port,$username, $db)
+    public function actionInit()
     {
-       $this->createDatabase($host,$port, $username, $db);
-    }
-
-    private function createDatabase($host,$port,$username,$db){
-        $command="createdb -h $host -p $port -U $username  $db";
+        $command="createdb -h $this->host -p $this->port -U $this->username  $this->db";
         exec($command);
     }
+
+    /**
+     * Initializes the Database
+     */
+    public function actionDrop()
+    {
+        $command="dropdb -h $this->host -p $this->port -U $this->username  $this->db";
+        exec($command);
+    }
+
 }
