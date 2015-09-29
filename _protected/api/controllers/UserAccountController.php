@@ -55,14 +55,14 @@ class UserAccountController extends Controller
                 {
                     if (Yii::$app->getUser()->login($user))
                     {
-                        return  Json::encode(['status'=>'success','msg'=>'Welcome!',"user"=>["id"=>$user->id,"username"=>$user->username,"email"=>$user->email,"status"=>$user->status]]);
+                        return  ['status'=>'success','msg'=>'Welcome!',"user"=>["id"=>$user->id,"username"=>$user->username,"email"=>$user->email,"status"=>$user->status]];
                     }
                 }
                 // activation is needed, use signupWithActivation()
                 else
                 {
                     $this->signupWithActivation($model, $user);
-                    return  Json::encode(['status'=>'success','msg'=>'Please check your email to verify this account!',"user"=>["id"=>$user->id,"username"=>$user->username,"email"=>$user->email,"status"=>$user->status]]);
+                    return  ['status'=>'success','msg'=>'Please check your email to verify this account!',"user"=>["id"=>$user->id,"username"=>$user->username,"email"=>$user->email,"status"=>$user->status]];
                 }
             }
             // user could not be saved in database
@@ -77,10 +77,10 @@ class UserAccountController extends Controller
                     User '.Html::encode($user->username).' could not sign up.
                     Possible causes: something strange happened while saving user in database.');
 
-                return  Json::encode(['status'=>'error','msg'=>'Sorry! Could not create account']);
+                return  ['status'=>'error','msg'=>'Sorry! Could not create account'];
             }
         }else{
-            return  Json::encode(['status'=>'error','msg'=>$model->getErrors()]);
+            return  ['status'=>'error','msg'=>$model->getErrors()];
         }
     }
 
@@ -101,7 +101,7 @@ class UserAccountController extends Controller
                 'Hello '.Html::encode($user->username).'.
                 To be able to log in, you need to confirm your registration.
                 Please check your email, we have sent you a message.');*/
-            return  Json::encode(['status'=>'success','msg'=>'Check your email']);
+            return  ['status'=>'success','msg'=>'Check your email'];
         }
         // email could not be sent
         else
@@ -114,7 +114,7 @@ class UserAccountController extends Controller
             // display error message to user
             /*Yii::$app->session->setFlash('error',
                 "We couldn't send you account activation email, please contact us.");*/
-            return  Json::encode(['status'=>'error','msg'=>'Email could not be sent']);
+            return  ['status'=>'error','msg'=>'Email could not be sent'];
         }
     }
 }
