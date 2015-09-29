@@ -13,6 +13,13 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
+        'request' => [
+            'class' => '\yii\web\Request',
+            'enableCookieValidation' => false,
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
+        ],
         // here you can set theme used for your api application
         // - template comes with: 'default'
         'view' => [
@@ -48,6 +55,14 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => ['user'],
                     'pluralize'=>true,
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => ['user-account'],
+                    'pluralize'=>false,
+                    'extraPatterns' => [
+                        'POST signup' => 'signup',
+                    ]
                 ],
             ],
         ],

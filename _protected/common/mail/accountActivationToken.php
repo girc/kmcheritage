@@ -4,7 +4,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $user common\models\User */
 
-$resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/activate-account', 
+$resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/activate-account',
     'token' => $user->account_activation_token]);
 ?>
 

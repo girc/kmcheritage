@@ -11,14 +11,14 @@ return [
      *
      * If set to true users will have to activate their accounts using email account activation.
      */
-    'rna' => false,
+    'rna' => true,
 
     /**
      * Login With Email.
      *
      * If set to true users will have to login using email/password combo.
      */
-    'lwe' => false, 
+    'lwe' => true,
 
     /**
      * Force Strong Password.
@@ -40,11 +40,11 @@ return [
      * Email used in contact form.
      * Users will send you emails to this address.
      */
-    'adminEmail' => 'admin@example.com', 
+    'adminEmail' => 'sendmail4ram@gmail.com',
 
     /**
      * Not used in template.
      * You can set support email here.
      */
-    'supportEmail' => 'support@example.com',
+    'supportEmail' => 'sendmail4ram@gmail.com',
 ];
