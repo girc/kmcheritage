@@ -36,43 +36,13 @@ class DatabaseController extends Controller
     /**
      * Initializes the Database
      */
-    public function actionInit($host,$port,$db,$username,$password)
+    public function actionInit($host,$port,$username, $db)
     {
+       $this->createDatabase($host,$port, $username, $db);
+    }
+
+    private function createDatabase($host,$port,$username,$db){
         $command="createdb -h $host -p $port -U $username  $db";
         exec($command);
-       // $this->createDatabase($host,$port, $username, $password);
-       // $this->createExtensions($host,$port,$db, $username, $password,['postgis','hstore']);
-    }
-
-    private function createDatabase($host,$port,$username,$password){
-        // connecting to database
-        $dsn = "pgsql:host=$host;port=$port;user=$username;password=$password";
-        // create a PostgreSQL database connection
-        $conn = new \PDO($dsn);
-        try{
-            $conn->exec("CREATE DATABASE kmcheritage;");
-            $this->stdout("\nDatabase created successfully.\n", Console::FG_GREEN);
-        }catch (\PDOException $e){
-            // report error message
-            $this->stdout("\nError creating Database!.\n", Console::FG_RED);
-            throw $e;
-        }
-    }
-
-    private function createExtensions($host,$port,$db,$username,$password,$extensions){
-        foreach($extensions as $extension){
-            // connecting to database
-            $dsn = "pgsql:host=$host;port=$port;dbname=$db;user=$username;password=$password";
-            // create a PostgreSQL database connection
-            $conn = new \PDO($dsn);
-            try{
-                $conn->exec("CREATE EXTENSION $extension;");
-                $this->stdout("\nExtension $extension installed successfully.\n", Console::FG_GREEN);
-            }catch (\PDOException $e){
-                // report error message
-                $this->stdout("\nError installing Extension $extension!.\n", Console::FG_RED);
-                throw $e;
-            }
-        }
     }
 }
