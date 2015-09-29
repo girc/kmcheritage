@@ -12,7 +12,6 @@ namespace api\controllers;
 use api\models\SignupForm;
 use common\models\User;
 use yii\helpers\Html;
-use yii\helpers\Json;
 use yii\rest\Controller;
 use Yii;
 
