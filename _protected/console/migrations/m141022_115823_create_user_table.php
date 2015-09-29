@@ -23,7 +23,7 @@ class m141022_115823_create_user_table extends Migration
             'auth_key' => Schema::TYPE_STRING . '(32) NOT NULL',
             'password_reset_token' => Schema::TYPE_STRING . ' UNIQUE',
             'account_activation_token' => Schema::TYPE_STRING,
-            'sign_up_ip'=>Schema::TYPE_STRING.'(11)',
+            'sign_up_ip'=>Schema::TYPE_STRING.'(15)',
             'sign_up_agent'=>Schema::TYPE_TEXT,
             'sign_up_host'=>Schema::TYPE_TEXT,
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
