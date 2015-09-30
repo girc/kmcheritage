@@ -16,24 +16,27 @@ CREATE TABLE monument(
 		"monument_name" CHARACTER VARYING (100),
 		"monument_type" INTEGER ,
 		"monument_type_other" CHARACTER  VARYING (100),
-		"artitecture_style" CHARACTER VARYING (100),
+		"artitecture_style" INTEGER ,
+		"artitecture_style_other" CHARACTER VARYING (100),
 		"dimension" CHARACTER VARYING (100),
 		"no_of_storey" INTEGER ,
 		"no_of_similar_heritages" INTEGER ,
 		"damage_level" INTEGER ,
-		"pinnacle" INTEGER,
-		"roof" INTEGER,
-		"wall" INTEGER,
-		"door" INTEGER,
-		"wooden_pillar" INTEGER,
-		"plinth" INTEGER,
-		"parts_others" INTEGER,
+		"damage_level_other" CHARACTER  VARYING (100),
+		"damage_pinnacle" INTEGER,
+		"damage_roof" INTEGER,
+		"damage_wall" INTEGER,
+		"damage_door" INTEGER,
+		"damage_wooden_pillar" INTEGER,
+		"damage_plinth" INTEGER,
+		"damage_parts_other" CHARACTER VARYING (100),
+		"damage_description" INTEGER,
 		"ward_no" INTEGER,
 		"tole" CHARACTER  VARYING (100),
 		"current_use" CHARACTER  VARYING (200),
-		"latest_maintenance_date" CHARACTER  VARYING (100),,
+		"latest_maintenance_date" CHARACTER  VARYING (100),
 		"latest_maintenance_by" CHARACTER  VARYING (100),
-		"additional_security" INTEGER,
+		"additional_security" BOOLEAN,
 		"lost_artifacts" TEXT,
 		"monuments_storage" CHARACTER  VARYING (100),
 		"local_contact" CHARACTER  VARYING (100),
@@ -50,12 +53,12 @@ CREATE TABLE monument(
 		"degradation" TEXT,
 		"latitude" DOUBLE PRECISION ,
 		"longitude" DOUBLE  PRECISION ,
-		"user_id" BIGINT,
+		"user_id" BIGINT DEFAULT NULL ,
 
 		 CONSTRAINT pk_monument_id PRIMARY KEY (id),
          CONSTRAINT fk_monument_user_id FOREIGN KEY (user_id)
-      		REFERENCES user (id) MATCH SIMPLE
-      		ON UPDATE CASCADE ON DELETE SET NULL
+      REFERENCES "user" (id) MATCH SIMPLE
+      ON UPDATE CASCADE ON DELETE SET NULL
 
 );
 SQL;
@@ -65,9 +68,8 @@ SQL;
 
     public function safeDown()
     {
-        echo "m150929_055530_create_table_Monument cannot be reverted.\n";
+		return $this->dropTable('{{%monument}}');
 
-        return false;
     }
 
     /*
