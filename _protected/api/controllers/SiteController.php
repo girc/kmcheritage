@@ -165,12 +165,12 @@ class SiteController extends Controller
         elseif($model->notActivated())
         {
             // if his account is not activated, he will have to activate it first
-            return ['status'=>'error','msg'=>'You have to activate your account first. Please check your email.'];
+            return ['status'=>'error','msg'=>'You have to activate your account first. Please check your email.','errors'=>'Activate your account'];
         }
         // account is activated, but some other errors have happened
         else
         {
-            return ['status'=>'error','msg'=>'Oops! Something went wrong.','error'=>[]];
+            return ['status'=>'error','msg'=>'Oops! Something went wrong.','errors'=>[]];
         }
     }
 
