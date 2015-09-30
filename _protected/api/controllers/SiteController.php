@@ -84,17 +84,16 @@ class SiteController extends Controller
             {
                 // display error message to user
                 //Yii::$app->session->setFlash('error',"We couldn't sign you up, please contact us.");
-                return ['ERROR: User Could Not be Saved!'];
 
                 // log this error, so we can debug possible problem easier.
                 Yii::error('Signup failed!
                     User '.Html::encode($user->username).' could not sign up.
                     Possible causes: something strange happened while saving user in database.');
 
-                return  ['status'=>'error','msg'=>'Sorry! Could not create account'];
+                return  ['status'=>'error','msg'=>'Sorry! Could not create account','errors'=>[]];
             }
         }else{
-            return  ['status'=>'error','msg'=>$model->getErrors()];
+            return  ['status'=>'error','msg'=>'validation error','errors'=>$model->getErrors()];
         }
     }
 
