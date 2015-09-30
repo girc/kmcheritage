@@ -4,6 +4,7 @@ namespace api\controllers;
 use api\models\LoginForm;
 use api\models\SignupForm;
 use common\models\User;
+use yii\base\Exception;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\rest\Controller;
@@ -62,36 +63,44 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate())
         {
             // try to save user data in database
-            if ($user = $model->signup())
-            {
-                // if user is active he will be logged in automatically ( this will be first user )
-                if ($user->status === User::STATUS_ACTIVE)
+            $transaction= Yii::$app->db->beginTransaction();
+            try{
+                if ($user = $model->signup())
                 {
-                    if (Yii::$app->getUser()->login($user))
+                    // if user is active he will be logged in automatically ( this will be first user )
+                    if ($user->status === User::STATUS_ACTIVE)
                     {
-                        return  ['status'=>'success','msg'=>'Welcome!',"user"=>["id"=>$user->id,"username"=>$user->username,"email"=>$user->email,"status"=>$user->status]];
+                        if (Yii::$app->getUser()->login($user))
+                        {
+                            return  ['status'=>'success','msg'=>'Welcome!',"user"=>["id"=>$user->id,"username"=>$user->username,"email"=>$user->email,"status"=>$user->status]];
+                        }
+                    }
+                    // activation is needed, use signupWithActivation()
+                    else
+                    {
+                        $this->signupWithActivation($model, $user);
+                        return  ['status'=>'success','msg'=>'Please check your email to verify this account!',"user"=>["id"=>$user->id,"username"=>$user->username,"email"=>$user->email,"status"=>$user->status]];
                     }
                 }
-                // activation is needed, use signupWithActivation()
+                // user could not be saved in database
                 else
                 {
-                    $this->signupWithActivation($model, $user);
-                    return  ['status'=>'success','msg'=>'Please check your email to verify this account!',"user"=>["id"=>$user->id,"username"=>$user->username,"email"=>$user->email,"status"=>$user->status]];
-                }
-            }
-            // user could not be saved in database
-            else
-            {
-                // display error message to user
-                //Yii::$app->session->setFlash('error',"We couldn't sign you up, please contact us.");
+                    // display error message to user
+                    //Yii::$app->session->setFlash('error',"We couldn't sign you up, please contact us.");
 
-                // log this error, so we can debug possible problem easier.
-                Yii::error('Signup failed!
+                    // log this error, so we can debug possible problem easier.
+                    Yii::error('Signup failed!
                     User '.Html::encode($user->username).' could not sign up.
                     Possible causes: something strange happened while saving user in database.');
 
-                return  ['status'=>'error','msg'=>'Sorry! Could not create account','errors'=>[]];
+                    return  ['status'=>'error','msg'=>'Sorry! Could not create account','errors'=>[]];
+                }
+                $transaction->commit();
+            }catch (Exception $e){
+                $transaction->rollBack();
+                return  ['status'=>'error','msg'=>'Exception','errors'=>[$e]];
             }
+
         }else{
             return  ['status'=>'error','msg'=>'validation error','errors'=>$model->getErrors()];
         }
