@@ -143,7 +143,8 @@ class SiteController extends Controller
      * @return string|\yii\web\Response
      */
     public function actionLogin()
-    {
+    {return  ['status'=>'success','msg'=>'Welcome!',"user"=>[]];
+
         // get setting value for 'Login With Email'
         $lwe = Yii::$app->params['lwe'];
 
