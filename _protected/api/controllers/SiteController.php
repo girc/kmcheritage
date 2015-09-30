@@ -148,7 +148,6 @@ class SiteController extends Controller
 
         // if 'lwe' value is 'true' we instantiate LoginForm in 'lwe' scenario
         $model = $lwe ? new LoginForm(['scenario' => 'lwe']) : new LoginForm();
-        if ($lwe)$model->email=$model->username;
 
         if(!$model->load(Yii::$app->request->post())){
             return ['status'=>'error','msg'=>'Credential data not received'];
