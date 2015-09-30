@@ -136,18 +136,14 @@ class SiteController extends Controller
     // LOG IN / LOG OUT
     //------------------------------------------------------------------------------------------------//
 
-    public  function actionLogin(){
-        return  ['status'=>'success','msg'=>'Welcome Bro!',"user"=>['id'=>'1','username'=>'de','email'=>'as']];
-    }
     /**
      * Logs in the user if his account is activated,
      * if not, displays appropriate message.
      *
      * @return string|\yii\web\Response
      */
-    public function actionLogink()
-    {
-
+    public  function actionLogin(){
+        return  ['status'=>'success','msg'=>'Welcome Bro!',"user"=>['id'=>'1','username'=>'de','email'=>'as']];
         // get setting value for 'Login With Email'
         $lwe = Yii::$app->params['lwe'];
 
