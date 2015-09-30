@@ -11,7 +11,8 @@ use yii\behaviors\TimestampBehavior;
  * This is the user model class extending UserIdentity.
  * Here you can implement your custom user solutions.
  *
- * @property $role Role
+ * @property Role   $role
+ * @property UserProfile $userProfile
  */
 class User extends UserIdentity
 {
@@ -114,6 +115,17 @@ class User extends UserIdentity
     {
         // User has_one Role via Role.user_id -> id
         return $this->hasOne(Role::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * Relation with UserProfile model.
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserProfile()
+    {
+        // User has_one UserProfile via Role.user_id -> id
+        return $this->hasOne(UserProfile::className(), ['user_id' => 'id']);
     }
 
     /**
