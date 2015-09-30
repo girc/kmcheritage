@@ -59,7 +59,7 @@ CREATE TABLE monument(
 
 );
 SQL;
-		Yii::$app->db->createCommand($sql);
+		Yii::$app->db->createCommand($sql)->execute();
 
     }
 
