@@ -154,7 +154,7 @@ class SiteController extends Controller
         if(!$model->load(Yii::$app->request->post())){
             return ['status'=>'error','msg'=>'Credential data not received'];
         }
-        
+
         // now we can try to log in the user
         if ($model->load(Yii::$app->request->post()) && $model->login())
         {
@@ -170,7 +170,7 @@ class SiteController extends Controller
         // account is activated, but some other errors have happened
         else
         {
-            return ['status'=>'error','msg'=>'Oops! Something went wrong.'];
+            return ['status'=>'error','msg'=>'Oops! Something went wrong.','error'=>[]];
         }
     }
 
