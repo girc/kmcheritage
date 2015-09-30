@@ -136,7 +136,7 @@ class SiteController extends Controller
     // LOG IN / LOG OUT
     //------------------------------------------------------------------------------------------------//
 
-    public  function actionTest(){
+    public  function actionLogin(){
         return  ['status'=>'success','msg'=>'Welcome!',"user"=>['id'=>'1','username'=>'de','email'=>'as']];
     }
     /**
@@ -145,7 +145,7 @@ class SiteController extends Controller
      *
      * @return string|\yii\web\Response
      */
-    public function actionLogin()
+    public function actionLogink()
     {
 
         // get setting value for 'Login With Email'
