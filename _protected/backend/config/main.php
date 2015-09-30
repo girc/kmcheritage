@@ -17,6 +17,7 @@ return [
         ],
     ],
     'components' => [
+        'urlManager' => require(__DIR__ . '/components/urlManager.php'),
         // here you can set theme used for your backend application 
         // - template comes with: 'default', 'slate', 'spacelab', 'flatty' and 'cerulean'
         'view' => [

@@ -12,6 +12,7 @@ return [
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
+        'urlManager' => require(__DIR__ . '/components/urlManager.php'),
         // here you can set theme used for your frontend application 
         // - template comes with: 'default', 'slate', 'spacelab', 'flatty' and 'cerulean'
         'view' => [

@@ -10,19 +10,21 @@ class m150929_055530_create_table_Monument extends Migration
         $sql=<<<SQL
 CREATE TABLE monument(
         "id" BIGSERIAL,
-		"monument_id" CHARACTER  VARYING (100),
-		"monument_name" CHARACTER  VARYING (100),
+        "team" CHARACTER VARYING (100),
+		"date" DATE ,
+		"monument_id" CHARACTER VARYING (100),
+		"monument_name" CHARACTER VARYING (100),
 		"monument_type" INTEGER ,
 		"monument_type_other" CHARACTER  VARYING (100),
-		"artitecture_style" CHARACTER  VARYING (100),
-		"dimension" CHARACTER  VARYING (100),
-		"no_of_storey" INTEGER,
-		"no_of_similar_heritages" INTEGER,
+		"artitecture_style" CHARACTER VARYING (100),
+		"dimension" CHARACTER VARYING (100),
+		"no_of_storey" INTEGER ,
+		"no_of_similar_heritages" INTEGER ,
 		"damage_level" INTEGER ,
 		"pinnacle" INTEGER,
 		"roof" INTEGER,
-		"wall" INTEGER ,
-		"door" INTEGER ,
+		"wall" INTEGER,
+		"door" INTEGER,
 		"wooden_pillar" INTEGER,
 		"plinth" INTEGER,
 		"parts_others" INTEGER,
@@ -51,7 +53,10 @@ CREATE TABLE monument(
 		"user_id" BIGINT,
 
 		 CONSTRAINT pk_monument_id PRIMARY KEY (id),
-         CONSTRAINT unique_driver_imei_tracking UNIQUE ("IMEI")
+         CONSTRAINT fk_monument_user_id FOREIGN KEY (user_id)
+      		REFERENCES user (id) MATCH SIMPLE
+      		ON UPDATE CASCADE ON DELETE SET NULL
+
 );
 SQL;
 

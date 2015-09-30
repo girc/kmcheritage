@@ -4,6 +4,7 @@ namespace common\models;
 use common\rbac\models\Role;
 use nenad\passwordStrength\StrengthValidator;
 use Yii;
+use yii\base\ErrorException;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -323,5 +324,32 @@ class User extends UserIdentity
     public function removeAccountActivationToken()
     {
         $this->account_activation_token = null;
+    }
+
+    /**
+     * @param $urlManager \yii\web\UrlManager
+     * @param $activationActionId string example:'site/activate-account'
+     * @return string
+     */
+    public function getAccountActivationLink($urlManager,$actionId){
+        if(!$urlManager)
+            throw new ErrorException('$urlManager for generating activation link not defined!');
+        if(!$actionId)
+            throw new ErrorException('$actionId for generating activation link not defined!');
+        return $urlManager->createAbsoluteUrl([$actionId,
+            'token' => $this->account_activation_token]);
+    }
+    /**
+     * @param $urlManager \yii\web\UrlManager
+     * @param $actionId string example: 'site/reset-password'
+     * @return string
+     */
+    public function getPasswordResetLink($urlManager,$actionId){
+        if(!$urlManager)
+            throw new ErrorException('$urlManager for generating activation link not defined!');
+        if(!$actionId)
+            throw new ErrorException('$actionId for generating activation link not defined!');
+        return $urlManager->createAbsoluteUrl([$actionId,
+            'token' => $this->password_reset_token]);
     }
 }

@@ -1,4 +1,6 @@
 <?php
+use yii\web\Response;
+
 $params = array_merge(
     require(__DIR__ . '/../../common/config/params.php'),
     require(__DIR__ . '/../../common/config/params-local.php'),
@@ -13,6 +15,7 @@ return [
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
+        'urlManager' => require(__DIR__ . '/components/urlManager.php'),
         'request' => [
             'class' => '\yii\web\Request',
             'enableCookieValidation' => false,
@@ -20,13 +23,9 @@ return [
                 'application/json' => 'yii\web\JsonParser',
             ]
         ],
-        // here you can set theme used for your api application
-        // - template comes with: 'default'
-        'view' => [
-            'theme' => [
-                'pathMap' => ['@app/views' => '@webroot/themes/slate/views'],
-                'baseUrl' => '@web/themes/default',
-            ],
+        'response' => [
+            'class' => 'yii\web\Response',
+            'format'=>Response::FORMAT_JSON,
         ],
         'user' => [
             'identityClass' => 'common\models\UserIdentity',
@@ -38,31 +37,6 @@ return [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
-                ],
-            ],
-        ],
-        'errorHandler' => [
-            'errorAction' => 'site/error',
-        ],
-
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'enableStrictParsing' => true,
-            'showScriptName' => false,
-            'rules' => [
-                '/' => 'site/index',
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => ['user'],
-                    'pluralize'=>true,
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => ['user-account'],
-                    'pluralize'=>false,
-                    'extraPatterns' => [
-                        'POST signup' => 'signup',
-                    ]
                 ],
             ],
         ],

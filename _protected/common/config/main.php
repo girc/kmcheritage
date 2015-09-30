@@ -4,6 +4,10 @@ return [
     //'language' => 'sr',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
+        'urlManager' =>require(__DIR__ . '/components/urlManager.php'),
+        'urlManagerFrontEnd'=>require(__DIR__ . '/../../frontend/config/components/urlManager.php'),
+        'urlManagerBackEnd'=>require(__DIR__ . '/../../backend/config/components/urlManager.php'),
+        'urlManagerApi'=>require(__DIR__ . '/../../api/config/components/urlManager.php'),
         'assetManager' => [
             'bundles' => [
                 // we will use bootstrap css from our theme
@@ -28,11 +32,6 @@ return [
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
-        ],
-        'urlManager' => [
-            'class' => 'yii\web\UrlManager',
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
         ],
         'session' => [
             'class' => 'yii\web\DbSession',
