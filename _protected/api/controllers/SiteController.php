@@ -170,7 +170,7 @@ class SiteController extends Controller
         // account is activated, but some other errors have happened
         else
         {
-            return ['status'=>'error','msg'=>'Oops! Something went wrong.','errors'=>[]];
+            return ['status'=>'error','msg'=>'Oops! Something went wrong.','errors'=>$model->getErrors()];
         }
     }
 
