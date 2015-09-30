@@ -137,7 +137,7 @@ class SiteController extends Controller
     //------------------------------------------------------------------------------------------------//
 
     public  function actionLogin(){
-        return  ['status'=>'success','msg'=>'Welcome!',"user"=>['id'=>'1','username'=>'de','email'=>'as']];
+        return  ['status'=>'success','msg'=>'Welcome Bro!',"user"=>['id'=>'1','username'=>'de','email'=>'as']];
     }
     /**
      * Logs in the user if his account is activated,
