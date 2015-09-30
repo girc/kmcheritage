@@ -24,6 +24,7 @@ return [
             'pluralize'=>false,
             'extraPatterns' => [
                 'POST signup' => 'signup',
+                'POST test' => 'test',
                 'POST login' => 'login',
             ]
         ],
