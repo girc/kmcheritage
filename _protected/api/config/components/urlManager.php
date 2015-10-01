@@ -27,5 +27,12 @@ return [
                 'POST login' => 'login',
             ]
         ],
+        [
+            'class' => 'yii\rest\UrlRule',
+            'controller' => ['monument'],
+            'pluralize'=>true,
+            'extraPatterns' => [
+            ]
+        ],
     ],
 ];
