@@ -1,0 +1,98 @@
+//----------------------------//
+// EARLY FATAL ERROR HANDLING //
+//----------------------------//
+_______________________________
+@see: http://stackoverflow.com/questions/18177980/fatal-error-handling-in-yii
+
+Fatal error handling in Yii
+
+
+Is there a way to email / log php fatal errors happening in the project based on Yii framework?
+
+For example it is possible to configure Yii to email "undefined variable" errors but fatal ones can only be monitored by a separate, non integrated into framework code which is not ideal.
+
+php logging error-handling yii fatal-error
+
+In php it is possible to intercept fatal errors using register_shutdown_function() function.
+
+Firstly, lets add "early" fatal and parse error handler. It should go into index.php. The purpose of this code is to catch those errors that could happened before controller has been initiated. As we are catching errors which could occur during application initiation it is better to use simple php without reliance on any external libs:
+
+// Early fatal errors handler, it will be replaced by a full featured one in Controller class
+// (given it does not have any parse or fatal errors of its own)
+function earlyFatalErrorHandler($unregister = false)
+{
+    // Functionality for "unregistering" shutdown function
+    static $unregistered;
+    if ($unregister) $unregistered = true;
+    if ($unregistered) return;
+
+    // 1. error_get_last() returns NULL if error handled via set_error_handler
+    // 2. error_get_last() returns error even if error_reporting level less then error
+    $error = error_get_last();
+
+    // Fatal errors
+    $errorsToHandle = E_ERROR | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING;
+
+    if ((!defined('APP_PRODUCTION_MODE') || APP_PRODUCTION_MODE) && !is_null($error) && ($error['type'] & $errorsToHandle))
+    {
+        $message = 'FATAL ERROR: ' . $error['message'];
+        if (!empty($error['file'])) $message .= ' (' . $error['file'] . ' :' . $error['line']. ')';
+
+        mail('errors@YOURDOMAIN.COM', $message, print_r($error, 1));
+
+        // Tell customer that you are aware of the issue and will take care of things
+        // echo "Apocalypse now!!!";
+    }
+}
+
+register_shutdown_function('earlyFatalErrorHandler');
+At this stage we are still not using Yii error handler nor logging. To start we need to register another shutdown function which is part of our base controller and can use standard error handling AND error logging provided by Yii framework (credits for the idea and bigger part of the code goes to vitalets @ http://habrahabr.ru/post/136138/)
+
+Note that this function will notify about parse errors as long as they are not parse errors in the actual controller files but in external files like models, helpers, views. If parse error is in controller early handler will deal with it.
+
+Also this function allows to render a nicer error page rather then dumping fatal error text or showing a blank screen (if display_errors is off).
+
+/**
+ * Controller is the customized base controller class.
+ * All controller classes for this application should extend from this base class.
+ */
+class Controller extends CController
+{
+    // ...
+
+    public function init()
+    {
+        register_shutdown_function(array($this, 'onShutdownHandler'));
+        earlyFatalErrorHandler(true); // Unregister early hanlder
+    }
+
+    public function onShutdownHandler()
+    {
+        // 1. error_get_last() returns NULL if error handled via set_error_handler
+        // 2. error_get_last() returns error even if error_reporting level less then error
+        $error = error_get_last();
+
+        // Fatal errors
+        $errorsToHandle = E_ERROR | E_PARSE | E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_COMPILE_WARNING;
+
+        if (!is_null($error) && ($error['type'] & $errorsToHandle))
+        {
+            // It's better to set errorAction = null to use system view "error.php" instead of
+            // run another controller/action (less possibility of additional errors)
+            Yii::app()->errorHandler->errorAction = null;
+
+            $message = 'FATAL ERROR: ' . $error['message'];
+            if (!empty($error['file'])) $message .= ' (' . $error['file'] . ' :' . $error['line']. ')';
+
+            // Force log & flush as logs were already processed as the error is fatal
+            Yii::log($message, CLogger::LEVEL_ERROR, 'php');
+            Yii::getLogger()->flush(true);
+
+            // Pass the error to Yii error handler (standard or a custom handler you may be using)
+            Yii::app()->handleError($error['type'], 'Fatal error: ' . $error['message'], $error['file'], $error['line']);
+        }
+    }
+
+    // ...
+}
+________________________________

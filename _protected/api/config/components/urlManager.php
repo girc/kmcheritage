@@ -20,11 +20,10 @@ return [
         ],
         [
             'class' => 'yii\rest\UrlRule',
-            'controller' => ['site'],
+            'controller' => ['user-account'],
             'pluralize'=>false,
             'extraPatterns' => [
                 'POST signup' => 'signup',
-                'POST test' => 'test',
                 'POST login' => 'login',
             ]
         ],

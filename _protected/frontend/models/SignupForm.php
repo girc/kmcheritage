@@ -5,6 +5,7 @@ use common\models\User;
 use common\rbac\helpers\RbacHelper;
 use nenad\passwordStrength\StrengthValidator;
 use Yii;
+use yii\base\Exception;
 use yii\base\Model;
 
 /**
@@ -126,8 +127,21 @@ class SignupForm extends Model
             $user->generateAccountActivationToken();
         }
 
+        $transaction = Yii::$app->db->beginTransaction();
+        try{
+            if($user->save() && RbacHelper::assignRole($user->getId())){
+                $transaction->commit();
+                return $user;
+            }else{
+                $transaction->rollBack();
+            }
+        }catch(Exception $e){
+            $transaction->rollBack();
+        }
+
+
         // if user is saved and role is assigned return user object
-        return $user->save() && RbacHelper::assignRole($user->getId()) ? $user : null;
+        //return $user->save() && RbacHelper::assignRole($user->getId()) ? $user : null;
     }
 
     /**

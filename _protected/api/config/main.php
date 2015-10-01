@@ -16,16 +16,20 @@ return [
     'modules' => [],
     'components' => [
         'urlManager' => require(__DIR__ . '/components/urlManager.php'),
+        // here you can set theme used for your frontend application
+        // - template comes with: 'default', 'slate', 'spacelab', 'flatty' and 'cerulean'
+        'view' => [
+            'theme' => [
+                'pathMap' => ['@app/views' => '@webroot/themes/slate/views'],
+                'baseUrl' => '@web/themes/default',
+            ],
+        ],
         'request' => [
             'class' => '\yii\web\Request',
             'enableCookieValidation' => false,
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ]
-        ],
-        'response' => [
-            'class' => 'yii\web\Response',
-            'format'=>Response::FORMAT_JSON,
         ],
         'user' => [
             'identityClass' => 'common\models\UserIdentity',
