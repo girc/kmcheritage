@@ -6,7 +6,7 @@
 // Path to the installation directory
 Yii::setAlias('root', dirname(dirname(dirname(__DIR__))));
 // Url to the installation directory
-Yii::setAlias('rootUrl', '/kmc');
+Yii::setAlias('rootUrl', '/kmcheritage');
 
 // Path to applications directories
 Yii::setAlias('common', dirname(__DIR__));

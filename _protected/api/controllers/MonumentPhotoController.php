@@ -3,19 +3,18 @@
  * Created by PhpStorm.
  * User: User
  * Date: 10/2/2015
- * Time: 1:17 AM
+ * Time: 7:44 AM
  */
 
 namespace api\controllers;
 
-use Yii;
-use yii\helpers\Json;
-use yii\log\Logger;
-use yii\rest\Controller;
 
-class MonumentController extends Controller
+use yii\helpers\Json;
+use yii\rest\Controller;
+use Yii;
+class MonumentPhotoController extends Controller
 {
-    public $modelClass = 'common\models\Monument';
+    public $modelClass = 'common\models\MonumentPhoto';
 
     public function actionIndex(){
         Yii::trace('Recieved data ' . Json::encode(Yii::$app->request->post()));
@@ -23,6 +22,7 @@ class MonumentController extends Controller
     }
 
     public function actionCreate(){
-        return ['status'=>'success','msg'=>'ok','object'=>[]];
+
+        return ['status'=>'success','msg'=>'ok','object'=>Yii::$app->request->post()];
     }
 }

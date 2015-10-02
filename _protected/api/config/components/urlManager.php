@@ -29,7 +29,7 @@ return [
         ],
         [
             'class' => 'yii\rest\UrlRule',
-            'controller' => ['monument'],
+            'controller' => ['monument','monument-photo'],
             'pluralize'=>true,
             'extraPatterns' => [
             ]

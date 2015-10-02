@@ -10,50 +10,52 @@ class m150929_055530_create_table_Monument extends Migration
         $sql=<<<SQL
 CREATE TABLE monument(
         "id" BIGSERIAL,
-        "team" CHARACTER VARYING (100),
-		"date" DATE ,
-		"monument_id" CHARACTER VARYING (100),
-		"monument_name" CHARACTER VARYING (100),
-		"monument_type" INTEGER ,
+        "team" CHARACTER VARYING (100),--ok
+		"date" DATE ,--ok
+		"monument_id" CHARACTER VARYING (100),--ok
+		"monument_name" CHARACTER VARYING (100),--ok
+		"monument_type" CHARACTER VARYING (50) , --ok,
 		"monument_type_other" CHARACTER  VARYING (100),
-		"artitecture_style" INTEGER ,
+		"artitecture_style" CHARACTER  VARYING (100),--ok
 		"artitecture_style_other" CHARACTER VARYING (100),
-		"dimension" CHARACTER VARYING (100),
-		"no_of_storey" INTEGER ,
-		"no_of_similar_heritages" INTEGER ,
-		"damage_level" INTEGER ,
+		"dimension" CHARACTER VARYING (100),--ok
+		"no_of_storey" INTEGER ,--ok
+		"no_of_similar_heritages" INTEGER ,--ok
+		"damage_level" CHARACTER VARYING (50) , --ok
 		"damage_level_other" CHARACTER  VARYING (100),
-		"damage_pinnacle" INTEGER,
-		"damage_roof" INTEGER,
-		"damage_wall" INTEGER,
-		"damage_door" INTEGER,
-		"damage_wooden_pillar" INTEGER,
-		"damage_plinth" INTEGER,
-		"damage_parts_other" CHARACTER VARYING (100),
+		"damage_pinnacle"  CHARACTER VARYING (50), --ok
+		"damage_roof" CHARACTER VARYING (50), --ok
+		"damage_wall" CHARACTER VARYING (50), --ok
+		"damage_door" CHARACTER VARYING (50), --ok
+		"damage_wooden_pillar" CHARACTER VARYING (50), --ok
+		"damage_plinth" CHARACTER VARYING (50), --ok
+		"damage_parts_other" CHARACTER VARYING (100),--ok
 		"damage_description" INTEGER,
-		"ward_no" INTEGER,
-		"tole" CHARACTER  VARYING (100),
-		"current_use" CHARACTER  VARYING (200),
-		"latest_maintenance_date" CHARACTER  VARYING (100),
-		"latest_maintenance_by" CHARACTER  VARYING (100),
-		"additional_security" BOOLEAN,
-		"lost_artifacts" TEXT,
-		"monuments_storage" CHARACTER  VARYING (100),
-		"local_contact" CHARACTER  VARYING (100),
-		"ownership" CHARACTER  VARYING (100),
-		"management_committee" CHARACTER  VARYING (100),
-		"builders_name" CHARACTER  VARYING (100),
-		"built_year" CHARACTER  VARYING (100),
-		"cultural_elements" TEXT,
-		"history" TEXT,
-		"religious" TEXT,
-		"social" TEXT,
-		"festival_date" CHARACTER  VARYING (100),
-		"ethnic_group" CHARACTER  VARYING (100),
-		"degradation" TEXT,
-		"latitude" DOUBLE PRECISION ,
-		"longitude" DOUBLE  PRECISION ,
-		"user_id" BIGINT DEFAULT NULL ,
+		"ward_no" INTEGER,--ok
+		"tole" CHARACTER  VARYING (100),--ok
+		"current_use" CHARACTER  VARYING (200), --ok
+		"latest_maintenance_date" CHARACTER  VARYING (100),--ok
+		"latest_maintenance_by" CHARACTER  VARYING (100),--ok
+		"additional_security" BOOLEAN,--ok may be small int
+		"additional_detail" TEXT,--ok may be small int
+		"lost_artifacts" BOOLEAN, --ok
+		"lost_artifacts_detail" TEXT, --ok
+		"monuments_storage" CHARACTER  VARYING (100), --OK
+		"local_contact" CHARACTER  VARYING (100),--ok
+		"ownership" CHARACTER  VARYING (100),--ok
+		"management_committee" CHARACTER  VARYING (100),--ok
+		"builders_name" CHARACTER  VARYING (100),--ok
+		"built_year" CHARACTER  VARYING (100),--ok
+		"cultural_elements" TEXT,--ok
+		"history" TEXT,--ok
+		"religious" TEXT,--ok
+		"social" TEXT,--ok
+		"festival_date" CHARACTER  VARYING (255),--ok
+		"ethnic_group" CHARACTER  VARYING (100),--ok
+		"degradation" TEXT, --ok
+		"latitude" DOUBLE PRECISION ,--ok
+		"longitude" DOUBLE  PRECISION ,--ok
+		"user_id" BIGINT DEFAULT NULL ,--ok
 
 		 CONSTRAINT pk_monument_id PRIMARY KEY (id),
          CONSTRAINT fk_monument_user_id FOREIGN KEY (user_id)
